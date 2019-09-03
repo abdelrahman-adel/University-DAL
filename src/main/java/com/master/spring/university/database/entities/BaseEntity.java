@@ -12,7 +12,7 @@ public class BaseEntity {
 			Method[] getters = this.getClass().getDeclaredMethods();
 			for (Method getter : getters) {
 				if (getter.getName().startsWith("get")) {
-					stringRepresentation += getter.getName() + "=" + getter.invoke(this, (Object[]) null) + ", ";
+					stringRepresentation += getter.getName().substring(3) + "=" + getter.invoke(this, (Object[]) null) + ", ";
 				}
 			}
 		} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
