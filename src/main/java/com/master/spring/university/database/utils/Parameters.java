@@ -1,10 +1,7 @@
 package com.master.spring.university.database.utils;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.master.spring.university.database.entities.BaseEntity;
 
 public class Parameters {
 
