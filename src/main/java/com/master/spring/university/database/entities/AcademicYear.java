@@ -15,6 +15,14 @@ import javax.persistence.NamedQuery;
 		@NamedQuery(name = "AcademicYear.findByAttributes", query = "select a from AcademicYear a where (:ignoreId=true or a.id=:id)") })
 public class AcademicYear extends BaseEntity {
 
+	public AcademicYear(Student student, PlannedCourse plannedCourse, String academicYear, Semester semester) {
+		super();
+		this.student = student;
+		this.plannedCourse = plannedCourse;
+		this.academicYear = academicYear;
+		this.semester = semester;
+	}
+
 	@Id
 	@GeneratedValue
 	@Column(name = "ID", nullable = false)
@@ -34,5 +42,45 @@ public class AcademicYear extends BaseEntity {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "SEMESTER_ID", nullable = false)
 	private Semester semester;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	public PlannedCourse getPlannedCourse() {
+		return plannedCourse;
+	}
+
+	public void setPlannedCourse(PlannedCourse plannedCourse) {
+		this.plannedCourse = plannedCourse;
+	}
+
+	public String getAcademicYear() {
+		return academicYear;
+	}
+
+	public void setAcademicYear(String academicYear) {
+		this.academicYear = academicYear;
+	}
+
+	public Semester getSemester() {
+		return semester;
+	}
+
+	public void setSemester(Semester semester) {
+		this.semester = semester;
+	}
 
 }

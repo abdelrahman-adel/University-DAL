@@ -25,4 +25,37 @@ public class Course extends BaseEntity {
 	@Column(name = "CREDIT_HOURS", nullable = false)
 	private Integer creditHours;
 
+	public Course() {
+	}
+
+	public Course(String name, Integer creditHours) {
+		super();
+		this.name = name;
+		this.creditHours = creditHours;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getCreditHours() {
+		return creditHours;
+	}
+
+	public void setCreditHours(Integer creditHours) {
+		this.creditHours = creditHours;
+	}
+
 }

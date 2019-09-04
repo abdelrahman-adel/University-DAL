@@ -17,6 +17,13 @@ import javax.persistence.OneToOne;
 				+ " and (:ignoreName=true or d.name=:name)") })
 public class Department extends BaseEntity {
 
+	public Department(String name, College college, Professor professor) {
+		super();
+		this.name = name;
+		this.college = college;
+		this.professor = professor;
+	}
+
 	@Id
 	@GeneratedValue
 	@Column(name = "ID", nullable = false)
@@ -32,5 +39,37 @@ public class Department extends BaseEntity {
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PROFESSOR_ID", nullable = false)
 	private Professor professor;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public College getCollege() {
+		return college;
+	}
+
+	public void setCollege(College college) {
+		this.college = college;
+	}
+
+	public Professor getProfessor() {
+		return professor;
+	}
+
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
+	}
 
 }

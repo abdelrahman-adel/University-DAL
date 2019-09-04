@@ -14,6 +14,11 @@ import javax.persistence.NamedQuery;
 		@NamedQuery(name = "Semester.findByAttributes", query = "select s from Semester s where (:ignoreId=true or s.id=:id) and (:ignoreValue=true or s.value=:value)") })
 public class Semester extends BaseEntity {
 
+	public Semester(SemesterEnum value) {
+		super();
+		this.value = value;
+	}
+
 	@Id
 	@GeneratedValue
 	@Column(name = "ID", nullable = false)
@@ -22,5 +27,21 @@ public class Semester extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "VALUE", nullable = false)
 	private SemesterEnum value;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public SemesterEnum getValue() {
+		return value;
+	}
+
+	public void setValue(SemesterEnum value) {
+		this.value = value;
+	}
 
 }

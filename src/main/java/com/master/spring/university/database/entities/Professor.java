@@ -15,6 +15,13 @@ import javax.persistence.NamedQuery;
 				+ " and (:ignoreAddress=true or p.address=:address)") })
 public class Professor extends BaseEntity {
 
+	public Professor(String name, String mobile, String address) {
+		super();
+		this.name = name;
+		this.mobile = mobile;
+		this.address = address;
+	}
+
 	@Id
 	@GeneratedValue
 	@Column(name = "ID", nullable = false)
@@ -28,5 +35,37 @@ public class Professor extends BaseEntity {
 
 	@Column(name = "ADDRESS", nullable = false)
 	private String address;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 }

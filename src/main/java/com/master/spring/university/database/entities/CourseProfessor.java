@@ -15,6 +15,12 @@ import javax.persistence.NamedQuery;
 		@NamedQuery(name = "CourseProfessor.findByAttributes", query = "select cp from CourseProfessor cp where (:ignoreId=true or cp.id=:id)") })
 public class CourseProfessor extends BaseEntity {
 
+	public CourseProfessor(PlannedCourse plannedCourse, Professor professor) {
+		super();
+		this.plannedCourse = plannedCourse;
+		this.professor = professor;
+	}
+
 	@Id
 	@GeneratedValue
 	@Column(name = "ID", nullable = false)
@@ -27,5 +33,29 @@ public class CourseProfessor extends BaseEntity {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PROFESSOR_ID", nullable = false)
 	private Professor professor;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public PlannedCourse getPlannedCourse() {
+		return plannedCourse;
+	}
+
+	public void setPlannedCourse(PlannedCourse plannedCourse) {
+		this.plannedCourse = plannedCourse;
+	}
+
+	public Professor getProfessor() {
+		return professor;
+	}
+
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
+	}
 
 }
