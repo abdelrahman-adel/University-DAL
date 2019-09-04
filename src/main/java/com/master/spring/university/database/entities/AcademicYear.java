@@ -18,7 +18,7 @@ public class AcademicYear extends BaseEntity {
 	@Id
 	@GeneratedValue
 	@Column(name = "ID", nullable = false)
-	private int id;
+	private Integer id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "STUDENT_ID", nullable = false)

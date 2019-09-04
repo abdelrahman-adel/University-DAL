@@ -17,7 +17,7 @@ public class PlannedCourse extends BaseEntity {
 	@Id
 	@GeneratedValue
 	@JoinColumn(name = "ID", nullable = false)
-	private int id;
+	private Integer id;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "COURSE_ID", nullable = false)

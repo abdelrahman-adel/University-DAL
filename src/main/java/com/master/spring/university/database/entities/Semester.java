@@ -17,7 +17,7 @@ public class Semester extends BaseEntity {
 	@Id
 	@GeneratedValue
 	@Column(name = "ID", nullable = false)
-	private int id;
+	private Integer id;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "VALUE", nullable = false)

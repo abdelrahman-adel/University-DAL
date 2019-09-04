@@ -20,7 +20,7 @@ public class Department extends BaseEntity {
 	@Id
 	@GeneratedValue
 	@Column(name = "ID", nullable = false)
-	private int id;
+	private Integer id;
 
 	@Column(name = "NAME", nullable = false)
 	private String name;

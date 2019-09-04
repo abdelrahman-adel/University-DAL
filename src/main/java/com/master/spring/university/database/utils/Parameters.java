@@ -1,7 +1,10 @@
 package com.master.spring.university.database.utils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.master.spring.university.database.entities.BaseEntity;
 
 public class Parameters {
 
@@ -17,6 +20,7 @@ public class Parameters {
 		String ignorKey = IGNORE_PREFIX + ("" + key.charAt(0)).toUpperCase() + key.substring(1);
 		if (null == value) {
 			parametersMap.put(ignorKey, true);
+			parametersMap.put(key, value);
 		} else {
 			parametersMap.put(ignorKey, false);
 			parametersMap.put(key, value);

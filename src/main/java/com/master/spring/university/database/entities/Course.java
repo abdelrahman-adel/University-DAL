@@ -17,12 +17,12 @@ public class Course extends BaseEntity {
 	@Id
 	@GeneratedValue
 	@Column(name = "ID", nullable = false)
-	private int id;
+	private Integer id;
 
 	@Column(name = "NAME", nullable = false)
 	private String name;
 
 	@Column(name = "CREDIT_HOURS", nullable = false)
-	private int creditHours;
+	private Integer creditHours;
 
 }

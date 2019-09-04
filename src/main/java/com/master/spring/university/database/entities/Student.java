@@ -21,7 +21,7 @@ public class Student extends BaseEntity {
 	@Id
 	@GeneratedValue
 	@Column(name = "ID", nullable = false)
-	private long id;
+	private Long id;
 
 	@Column(name = "NAME", nullable = false)
 	private String name;
@@ -46,11 +46,11 @@ public class Student extends BaseEntity {
 		this.joiningDate = joiningDate;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
