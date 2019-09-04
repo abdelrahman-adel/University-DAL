@@ -12,7 +12,7 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries(value = {
-		@NamedQuery(name = "Specialty.findByAttributes", query = "select s from Specialty s where s.id=:id and s.name=:name") })
+		@NamedQuery(name = "Specialty.findByAttributes", query = "select s from Specialty s where (:ignoreId=true or s.id=:id) and (:ignoreName=true or s.name=:name)") })
 public class Specialty extends BaseEntity {
 
 	@Id

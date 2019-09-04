@@ -11,7 +11,7 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries(value = {
-		@NamedQuery(name = "PlannedCourse.findByAttributes", query = "select pc from PlannedCourse pc where pc.id=:id") })
+		@NamedQuery(name = "PlannedCourse.findByAttributes", query = "select pc from PlannedCourse pc where (:ignoreId=true or pc.id=:id)") })
 public class PlannedCourse extends BaseEntity {
 
 	@Id

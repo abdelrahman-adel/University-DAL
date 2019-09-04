@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class Parameters {
 
+	private static final String IGNORE_PREFIX = "ignore";
+
 	private Map<String, Object> parametersMap;
 
 	public Parameters() {
@@ -12,7 +14,13 @@ public class Parameters {
 	}
 
 	public Parameters addParameter(String key, Object value) {
-		parametersMap.put(key, value);
+		String ignorKey = IGNORE_PREFIX + ("" + key.charAt(0)).toUpperCase() + key.substring(1);
+		if (null == value) {
+			parametersMap.put(ignorKey, true);
+		} else {
+			parametersMap.put(ignorKey, false);
+			parametersMap.put(key, value);
+		}
 		return this;
 	}
 

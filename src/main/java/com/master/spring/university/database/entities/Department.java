@@ -13,7 +13,8 @@ import javax.persistence.OneToOne;
 
 @Entity
 @NamedQueries(value = {
-		@NamedQuery(name = "Department.findByAttributes", query = "select d from Department d where d.id=:id and d.name=:name") })
+		@NamedQuery(name = "Department.findByAttributes", query = "select d from Department d where (:ignoreId=true or d.id=:id)"
+				+ " and (:ignoreName=true or d.name=:name)") })
 public class Department extends BaseEntity {
 
 	@Id
