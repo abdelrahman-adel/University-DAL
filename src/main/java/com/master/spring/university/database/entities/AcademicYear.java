@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,7 +25,7 @@ public class AcademicYear extends BaseEntity {
 	}
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACADEMIC_YEAR_SEQ")
 	@Column(name = "ID", nullable = false)
 	private Integer id;
 
@@ -42,6 +43,9 @@ public class AcademicYear extends BaseEntity {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "SEMESTER_ID", nullable = false)
 	private Semester semester;
+
+	public AcademicYear() {
+	}
 
 	public Integer getId() {
 		return id;

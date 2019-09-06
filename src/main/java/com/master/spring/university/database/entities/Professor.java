@@ -3,6 +3,7 @@ package com.master.spring.university.database.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -10,8 +11,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries(value = {
 		@NamedQuery(name = "Professor.findByAttributes", query = "select p from Professor p where (:ignoreId=true or p.id=:id)"
-				+ " and (:ignoreName=true or p.name=:name)"
-				+ " and (:ignoreMobile=true or p.mobile=:mobile)"
+				+ " and (:ignoreName=true or p.name=:name)" + " and (:ignoreMobile=true or p.mobile=:mobile)"
 				+ " and (:ignoreAddress=true or p.address=:address)") })
 public class Professor extends BaseEntity {
 
@@ -23,7 +23,7 @@ public class Professor extends BaseEntity {
 	}
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PROFESSOR_SEQ")
 	@Column(name = "ID", nullable = false)
 	private Integer id;
 
@@ -35,6 +35,9 @@ public class Professor extends BaseEntity {
 
 	@Column(name = "ADDRESS", nullable = false)
 	private String address;
+
+	public Professor() {
+	}
 
 	public Integer getId() {
 		return id;

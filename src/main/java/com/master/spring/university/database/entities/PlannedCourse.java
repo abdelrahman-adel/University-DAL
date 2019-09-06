@@ -3,6 +3,7 @@ package com.master.spring.university.database.entities;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,7 +24,7 @@ public class PlannedCourse extends BaseEntity {
 	}
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PLANNED_COURSE_SEQ")
 	@JoinColumn(name = "ID", nullable = false)
 	private Integer id;
 
@@ -42,6 +43,9 @@ public class PlannedCourse extends BaseEntity {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "SPECIALTY_ID", nullable = true)
 	private Specialty specialty;
+
+	public PlannedCourse() {
+	}
 
 	public Integer getId() {
 		return id;

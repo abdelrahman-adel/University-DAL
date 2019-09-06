@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,13 +21,16 @@ public class Semester extends BaseEntity {
 	}
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEMESTER_SEQ")
 	@Column(name = "ID", nullable = false)
 	private Integer id;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "VALUE", nullable = false)
 	private SemesterEnum value;
+
+	public Semester() {
+	}
 
 	public Integer getId() {
 		return id;

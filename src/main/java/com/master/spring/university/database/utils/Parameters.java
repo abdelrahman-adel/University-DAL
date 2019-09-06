@@ -1,7 +1,11 @@
 package com.master.spring.university.database.utils;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.master.spring.university.database.entities.BaseEntity;
 
 public class Parameters {
 
@@ -19,8 +23,24 @@ public class Parameters {
 			parametersMap.put(ignorKey, true);
 			parametersMap.put(key, value);
 		} else {
-			parametersMap.put(ignorKey, false);
-			parametersMap.put(key, value);
+			if (value instanceof BaseEntity) {
+				Method[] getters = value.getClass().getMethods();
+				for (Method getter : getters) {
+					if (getter.getName().startsWith("get") && !getter.getName().equals("getClass")) {
+						String keyExtension = getter.getName().substring(3);
+						parametersMap.put(ignorKey + keyExtension, false);
+						try {
+							parametersMap.put(key + keyExtension, getter.invoke(value, (Object[]) null));
+						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			} else {
+				parametersMap.put(ignorKey, false);
+				parametersMap.put(key, value);
+			}
+
 		}
 		return this;
 	}

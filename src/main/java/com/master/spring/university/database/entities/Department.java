@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,15 +18,15 @@ import javax.persistence.OneToOne;
 				+ " and (:ignoreName=true or d.name=:name)") })
 public class Department extends BaseEntity {
 
-	public Department(String name, College college, Professor professor) {
+	public Department(String name, College college, Professor head) {
 		super();
 		this.name = name;
 		this.college = college;
-		this.professor = professor;
+		this.head = head;
 	}
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DEPARTMENT_SEQ")
 	@Column(name = "ID", nullable = false)
 	private Integer id;
 
@@ -37,8 +38,11 @@ public class Department extends BaseEntity {
 	private College college;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "PROFESSOR_ID", nullable = false)
-	private Professor professor;
+	@JoinColumn(name = "HEAD_ID", nullable = false)
+	private Professor head;
+
+	public Department() {
+	}
 
 	public Integer getId() {
 		return id;
@@ -64,12 +68,12 @@ public class Department extends BaseEntity {
 		this.college = college;
 	}
 
-	public Professor getProfessor() {
-		return professor;
+	public Professor getHead() {
+		return head;
 	}
 
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
+	public void setHead(Professor professor) {
+		this.head = professor;
 	}
 
 }

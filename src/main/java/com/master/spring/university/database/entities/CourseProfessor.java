@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,7 +23,7 @@ public class CourseProfessor extends BaseEntity {
 	}
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COURSE_PROFESSOR_SEQ")
 	@Column(name = "ID", nullable = false)
 	private Integer id;
 
@@ -33,6 +34,9 @@ public class CourseProfessor extends BaseEntity {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PROFESSOR_ID", nullable = false)
 	private Professor professor;
+
+	public CourseProfessor() {
+	}
 
 	public Integer getId() {
 		return id;
