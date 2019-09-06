@@ -18,6 +18,15 @@ public class Parameters {
 	}
 
 	public Parameters addParameter(String key, Object value) {
+		if (null == value) {
+			return this;
+		} else {
+			parametersMap.put(key, value);
+		}
+		return this;
+	}
+
+	public Parameters addParameterOLD(String key, Object value) {
 		String ignorKey = IGNORE_PREFIX + ("" + key.charAt(0)).toUpperCase() + key.substring(1);
 		if (null == value) {
 			parametersMap.put(ignorKey, true);
