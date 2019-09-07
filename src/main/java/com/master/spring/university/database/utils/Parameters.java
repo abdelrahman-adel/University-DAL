@@ -2,8 +2,8 @@ package com.master.spring.university.database.utils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.master.spring.university.database.entities.BaseEntity;
 
@@ -14,7 +14,7 @@ public class Parameters {
 	private Map<String, Object> parametersMap;
 
 	public Parameters() {
-		parametersMap = new HashMap<>();
+		parametersMap = new ConcurrentHashMap<>();
 	}
 
 	public Parameters addParameter(String key, Object value) {
@@ -26,6 +26,7 @@ public class Parameters {
 		return this;
 	}
 
+	@Deprecated
 	public Parameters addParameterOLD(String key, Object value) {
 		String ignorKey = IGNORE_PREFIX + ("" + key.charAt(0)).toUpperCase() + key.substring(1);
 		if (null == value) {
