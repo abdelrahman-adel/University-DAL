@@ -56,26 +56,27 @@ public class ExtendedRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> im
 
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<T> query = builder.createQuery(this.getDomainClass());
-		Root<T> entity = query.from(this.getDomainClass());
-		logger.info("findByAttributes @@ root is: {}", entity);
-		entity = prepareRoot(query, entity, parameters);
-		logger.info("findByAttributes @@ root is: {}", entity);
-		Predicate[] predicates = preparePredicates(builder, query, entity, parameters);
-		query.select(entity).where(predicates);
+		Root<T> root = query.from(this.getDomainClass());
+		logger.info("findByAttributes @@ root is: {}", root);
+		Map<String, Root<T>> prepareEntitiesRoots = prepareEntitiesRoots(query, parameters);
+		prepareEntitiesRoots.put("", root);
+		logger.info("findByAttributes @@ root is: {}", root);
+		Predicate[] predicates = preparePredicates(builder, query, root, parameters);
+		query.select(root).where(predicates);
 
 		TypedQuery<T> findByAttributes = entityManager.createQuery(query);
 		return findByAttributes.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
-	private Root<T> prepareRoot(CriteriaQuery<T> query, Root<T> root, Parameters parameters) {
-		Root<T> latestRoot = root;
+	private Map<String, Root<T>> prepareEntitiesRoots(CriteriaQuery<T> query, Parameters parameters) {
+		Map<String, Root<T>> roots = new HashMap<>();
 		parameters.getParametersMap().forEach((key, value) -> {
 			if (value instanceof BaseEntity) {
-				latestRoot = (Root<T>) query.from(value.getClass());
+				roots.put(key, (Root<T>) query.from(value.getClass()));
 			}
 		});
-		return latestRoot;
+		return roots;
 	}
 
 	private Predicate[] preparePredicates(CriteriaBuilder builder, CriteriaQuery<T> query, Root<T> entity,
