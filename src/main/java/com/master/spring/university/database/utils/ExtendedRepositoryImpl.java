@@ -80,7 +80,9 @@ public class ExtendedRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> im
 			Parameters parameters) {
 		List<Predicate> predicates = new ArrayList<>();
 		Set<Entry<String, Object>> entrySet = parameters.getParametersMap().entrySet();
+
 //		=========================================================================================================================================================================================
+
 		for (Entry<String, Object> entry : entrySet) {
 			logger.info("preparePredicates @@ BEGINNING entrySet.size():{}", entrySet.size());
 			String key = entry.getKey();
@@ -116,39 +118,41 @@ public class ExtendedRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> im
 			}
 			logger.info("preparePredicates @@ ENDING entrySet.size():{}", entrySet.size());
 		}
+
 //		=========================================================================================================================================================================================
-//		parameters.getParametersMap().forEach((key, value) -> {
-//			logger.info("preparePredicates @@ AT Key: {}", key);
-//			if (value instanceof BaseEntity) {
-//				Method[] getters = value.getClass().getMethods();
-//				for (Method getter : getters) {
-//					if (getter.getName().startsWith("get") && !getter.getName().equals("getClass")) {
-//						try {
-//							Object fieldVal = getter.invoke(value, (Object[]) null);
-//							String fieldName = getter.getName().substring(3).toLowerCase();
-//							String keyExt = key + "." + fieldName;
-//							parameters.addParameter(keyExt, fieldVal);
-//						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-//							e.printStackTrace();
-//						}
-//					}
-//				}
-//			} else {
-//				logger.info("preparePredicates @@ Adding predicate: {} @ {}", key, value);
-//				if (key.contains(".")) {
-//					String joinName = key.substring(0, key.indexOf("."));
-//					String joinKey = key.substring(key.indexOf(".") + 1);
-//					root.getJoins().forEach((join) -> {
-//						if (joinName.equals(join.getAlias())) {
-//							predicates.add(builder.equal(join.get(joinKey), value));
-//						}
-//					});
-//				} else {
-//					predicates.add(builder.equal(root.get(key), value));
-// 				}
-//			}
-//			logger.info("preparePredicates @@ Parameters:{}", parameters.getParametersMap());
-//		});
+
+		parameters.getParametersMap().forEach((key, value) -> {
+			logger.info("preparePredicates @@ AT Key: {}", key);
+			if (value instanceof BaseEntity) {
+				Method[] getters = value.getClass().getMethods();
+				for (Method getter : getters) {
+					if (getter.getName().startsWith("get") && !getter.getName().equals("getClass")) {
+						try {
+							Object fieldVal = getter.invoke(value, (Object[]) null);
+							String fieldName = getter.getName().substring(3).toLowerCase();
+							String keyExt = key + "." + fieldName;
+							parameters.addParameter(keyExt, fieldVal);
+						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			} else {
+				logger.info("preparePredicates @@ Adding predicate: {} @ {}", key, value);
+				if (key.contains(".")) {
+					String joinName = key.substring(0, key.indexOf("."));
+					String joinKey = key.substring(key.indexOf(".") + 1);
+					root.getJoins().forEach((join) -> {
+						if (joinName.equals(join.getAlias())) {
+							predicates.add(builder.equal(join.get(joinKey), value));
+						}
+					});
+				} else {
+					predicates.add(builder.equal(root.get(key), value));
+				}
+			}
+			logger.info("preparePredicates @@ Parameters:{}", parameters.getParametersMap());
+		});
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
 
