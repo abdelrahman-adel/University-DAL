@@ -1,61 +1,125 @@
 package com.master.spring.university.database.utils;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.master.spring.university.database.entities.BaseEntity;
+public class Parameters implements Iterator<Pair>, Iterable<Pair> {
 
-public class Parameters {
-
-	private static final String IGNORE_PREFIX = "ignore";
+	private int index;
 
 	private Map<String, Object> parametersMap;
+	private List<Pair> parameters;
 
 	public Parameters() {
+		index = 0;
 		parametersMap = new ConcurrentHashMap<>();
+		parameters = new ArrayList<>();
 	}
 
-	public Parameters addParameter(String key, Object value) {
+	public Parameters add(String key, Object value) {
 		if (null == value) {
 			return this;
 		} else {
 			parametersMap.put(key, value);
+			parameters.add(new Pair(key, value));
+		}
+		return this;
+	}
+
+	public Parameters addAll(List<Pair> pairs) {
+		for (Pair pair : pairs) {
+			if (null != pair && null != pair.getKey() && null != pair.getValue()) {
+				parameters.add(pair);
+			}
+		}
+		return this;
+	}
+
+	@Override
+	public boolean hasNext() {
+		if (parameters.size() > index)
+			return true;
+		return false;
+	}
+
+	@Override
+	public Pair next() {
+		if (hasNext())
+			return parameters.get(index++);
+		return null;
+	}
+
+	@Override
+	public Iterator<Pair> iterator() {
+		return this;
+	}
+
+	public int size() {
+		return parameters.size();
+	}
+
+	public void resetIndex() {
+		index = 0;
+	}
+
+	public List<Pair> getAll() {
+		return parameters;
+	}
+
+	public boolean isEmpty() {
+		if (size() > 0)
+			return false;
+		return true;
+	}
+
+	@Deprecated
+	public Parameters addParameter(String key, Object value) {
+		if (null == value)
+			return this;
+		else {
+			parametersMap.put(key, value);
+			parameters.add(new Pair(key, value));
 		}
 		return this;
 	}
 
 	@Deprecated
-	public Parameters addParameterOLD(String key, Object value) {
-		String ignorKey = IGNORE_PREFIX + ("" + key.charAt(0)).toUpperCase() + key.substring(1);
-		if (null == value) {
-			parametersMap.put(ignorKey, true);
-			parametersMap.put(key, value);
-		} else {
-			if (value instanceof BaseEntity) {
-				Method[] getters = value.getClass().getMethods();
-				for (Method getter : getters) {
-					if (getter.getName().startsWith("get") && !getter.getName().equals("getClass")) {
-						String keyExtension = getter.getName().substring(3);
-						parametersMap.put(ignorKey + keyExtension, false);
-						try {
-							parametersMap.put(key + keyExtension, getter.invoke(value, (Object[]) null));
-						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			} else {
-				parametersMap.put(ignorKey, false);
-				parametersMap.put(key, value);
-			}
-
-		}
-		return this;
-	}
-
 	public Map<String, Object> getParametersMap() {
 		return parametersMap;
+	}
+
+	@Deprecated
+	public List<Pair> getParameters() {
+		return parameters;
+	}
+}
+
+class Pair {
+	private String key;
+	private Object value;
+
+	public Pair(String key, Object value) {
+		super();
+		this.key = key;
+		this.value = value;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public Object getValue() {
+		return value;
+	}
+
+	public void setValue(Object value) {
+		this.value = value;
 	}
 }
