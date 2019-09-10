@@ -56,6 +56,28 @@ public class ExtendedRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> im
 			if (pair.getValue() instanceof BaseEntity) {
 				logger.info("prepareJoins @@ joining: {}", pair.getKey());
 				root.join(pair.getKey()).alias(pair.getKey());
+				joinRoot(query, root, pair);
+			}
+		}
+		parameters.resetIndex();
+	}
+
+	private void joinRoot(CriteriaQuery<T> query, Root<T> root, Pair pair) {
+		if (pair.getValue() instanceof BaseEntity) {
+			Method[] getters = pair.getValue().getClass().getMethods();
+			for (Method getter : getters) {
+				if (getter.getName().startsWith("get") && !getter.getName().equals("getClass")) {
+					Object invoke;
+					try {
+						invoke = getter.invoke(pair.getValue(), (Object[]) null);
+						if (invoke instanceof BaseEntity) {
+							String joinName = pair.getKey().substring(0, pair.getKey().lastIndexOf("."));
+							root.join(joinName).alias(joinName);
+						}
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 	}
@@ -85,8 +107,8 @@ public class ExtendedRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> im
 			} else {
 				logger.info("preparePredicates @@ Adding predicate: {} @ {}", key, value);
 				if (key.contains(".")) {
-					String joinName = key.substring(0, key.indexOf("."));
-					String joinKey = key.substring(key.indexOf(".") + 1);
+					String joinName = key.substring(0, key.lastIndexOf("."));
+					String joinKey = key.substring(key.lastIndexOf(".") + 1);
 					root.getJoins().forEach((join) -> {
 						if (joinName.equals(join.getAlias())) {
 							predicates.add(builder.equal(join.get(joinKey), value));
