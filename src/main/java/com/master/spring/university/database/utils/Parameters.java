@@ -74,27 +74,6 @@ public class Parameters implements Iterator<Pair>, Iterable<Pair> {
 			return false;
 		return true;
 	}
-
-	@Deprecated
-	public Parameters addParameter(String key, Object value) {
-		if (null == value)
-			return this;
-		else {
-			parametersMap.put(key, value);
-			parameters.add(new Pair(key, value));
-		}
-		return this;
-	}
-
-	@Deprecated
-	public Map<String, Object> getParametersMap() {
-		return parametersMap;
-	}
-
-	@Deprecated
-	public List<Pair> getParameters() {
-		return parameters;
-	}
 }
 
 class Pair {
